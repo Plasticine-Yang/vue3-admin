@@ -70,3 +70,45 @@ export const getConfigFileName = (env: Record<string, any>) => {
 export function getRootPath(...dir: string[]) {
   return path.resolve(process.cwd(), ...dir);
 }
+
+/**
+ * 将 loadEnv 加载的配置对象转成类型正确的配置对象，并将它们挂载到 process.env 中
+ * @param envConf loadEnv 加载的配置
+ * @returns 类型正确的配置对象
+ */
+export function wrapperEnv(envConf: Recordable): ViteEnv {
+  const res: any = {};
+
+  // 1. 遍历所有的配置项的 key
+  for (const envName of Object.keys(envConf)) {
+    let realName = envConf[envName];
+
+    // 2. 进行一些类型转换
+
+    // 将 boolean 字符串转成 boolean 类型
+    realName = realName === 'true' ? true : realName === 'false' ? false : realName;
+
+    // VUTE_PORT 是 number 类型
+    if (envName === 'VITE_PORT') realName = Number(realName);
+
+    // VITE_PROXY 可能是单个字符串也可能是数组
+    if (envName === 'VITE_PROXY' && realName) {
+      try {
+        // JSON 中没有单引号，为了防止出错需要将单引号替换成双引号
+        realName = JSON.parse(realName.replace(/\'/, '"'));
+      } catch (error) {
+        realName = '';
+      }
+    }
+
+    // 3. 将结果拷贝到新对象中
+    res[envName] = realName;
+
+    // 4. 将配置项放到 process.env 中，值只能是字符串，因此遇到对象要进行序列化
+    if (typeof realName === 'string') process.env[envName] = realName;
+    else if (typeof realName === 'object') process.env[envName] = JSON.stringify(realName);
+    else process.env[envName] = realName.toString();
+  }
+
+  return res;
+}
