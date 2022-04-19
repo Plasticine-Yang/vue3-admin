@@ -1,4 +1,4 @@
-import { GLOB_CONFIG_FILE_NAME } from 'build/constant';
+import { GLOB_CONFIG_FILE_NAME } from '../../constant';
 import { createHtmlPlugin } from 'vite-plugin-html';
 
 import pkg from '../../../package.json';
