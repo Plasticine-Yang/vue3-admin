@@ -35,6 +35,7 @@ export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, 'src'),
+        '#': path.resolve(__dirname, 'type'),
       },
     },
     build: {
