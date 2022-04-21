@@ -1,6 +1,7 @@
 // import type { VNode } from 'vue';
 
 declare global {
+  type Nullable<T> = T | null;
   type Recordable<T = any> = Record<string, T>;
   interface ViteEnv {
     VITE_PORT: number; // 端口号
