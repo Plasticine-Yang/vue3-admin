@@ -58,9 +58,7 @@ export function getEnvConfig(match = 'VITE_GLOB_', confFiles = getConfFiles()) {
  */
 export const getConfigFileName = (env: Record<string, any>) => {
   // 读取配置项 VITE_GLOB_APP_SHORT_NAME 进行拼接，没有配置该项则默认用 __APP
-  return `__PRODUCTION__${env.VITE_GLOB_APP_SHORT_NAME || '__APP'}__CONF__`
-    .toUpperCase()
-    .replace(/\s/g, ''); // 去除空白字符
+  return `__PRODUCTION__${env.VITE_GLOB_APP_SHORT_NAME || '__APP'}__CONF__`.toUpperCase().replace(/\s/g, ''); // 去除空白字符
 };
 
 /**
