@@ -1,4 +1,4 @@
-import { DEFAULT_CACHE_TIME } from '@/settings/encryptSetting';
+import { DEFAULT_CACHE_TIME } from '@/settings/cacheSetting';
 import { getStoragePrefixKey } from '../env';
 import { createStorage as _createStorage, CreateStorageParams } from './storageCache';
 
